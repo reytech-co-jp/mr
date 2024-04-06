@@ -15,46 +15,31 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'model/BordTitle.dart';
-import 'model/DicePlan.dart';
+import 'model/Flip.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 4715250782914726885),
-      name: 'DicePlan',
-      lastPropertyId: const obx_int.IdUid(2, 1600827017435586995),
+      id: const obx_int.IdUid(1, 5280010655913932321),
+      name: 'Flip',
+      lastPropertyId: const obx_int.IdUid(3, 7589208013723665360),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 7700180733284454752),
+            id: const obx_int.IdUid(1, 1250851929711536207),
             name: 'id',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 1600827017435586995),
-            name: 'plan',
-            type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 8380208710599110397),
-      name: 'BordTitle',
-      lastPropertyId: const obx_int.IdUid(2, 4722574709548371077),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1265025630075201580),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 4722574709548371077),
+            id: const obx_int.IdUid(2, 5501823002030793014),
             name: 'title',
             type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 7589208013723665360),
+            name: 'plan',
+            type: 30,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -96,7 +81,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(2, 8380208710599110397),
+      lastEntityId: const obx_int.IdUid(1, 5280010655913932321),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -109,45 +94,22 @@ obx_int.ModelDefinition getObjectBoxModel() {
       version: 1);
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    DicePlan: obx_int.EntityDefinition<DicePlan>(
+    Flip: obx_int.EntityDefinition<Flip>(
         model: _entities[0],
-        toOneRelations: (DicePlan object) => [],
-        toManyRelations: (DicePlan object) => {},
-        getId: (DicePlan object) => object.id,
-        setId: (DicePlan object, int id) {
+        toOneRelations: (Flip object) => [],
+        toManyRelations: (Flip object) => {},
+        getId: (Flip object) => object.id,
+        setId: (Flip object, int id) {
           object.id = id;
         },
-        objectToFB: (DicePlan object, fb.Builder fbb) {
-          final planOffset = fbb.writeString(object.plan);
-          fbb.startTable(3);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, planOffset);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final planParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final object = DicePlan(plan: planParam)
-            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-
-          return object;
-        }),
-    BordTitle: obx_int.EntityDefinition<BordTitle>(
-        model: _entities[1],
-        toOneRelations: (BordTitle object) => [],
-        toManyRelations: (BordTitle object) => {},
-        getId: (BordTitle object) => object.id,
-        setId: (BordTitle object, int id) {
-          object.id = id;
-        },
-        objectToFB: (BordTitle object, fb.Builder fbb) {
+        objectToFB: (Flip object, fb.Builder fbb) {
           final titleOffset = fbb.writeString(object.title);
-          fbb.startTable(3);
+          final planOffset = fbb.writeList(
+              object.plan.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(4);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
+          fbb.addOffset(2, planOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -156,7 +118,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
           final titleParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
-          final object = BordTitle(title: titleParam)
+          final planParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGet(buffer, rootOffset, 8, []);
+          final object = Flip(title: titleParam, plan: planParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
@@ -166,24 +132,16 @@ obx_int.ModelDefinition getObjectBoxModel() {
   return obx_int.ModelDefinition(model, bindings);
 }
 
-/// [DicePlan] entity fields to define ObjectBox queries.
-class DicePlan_ {
-  /// see [DicePlan.id]
-  static final id =
-      obx.QueryIntegerProperty<DicePlan>(_entities[0].properties[0]);
+/// [Flip] entity fields to define ObjectBox queries.
+class Flip_ {
+  /// see [Flip.id]
+  static final id = obx.QueryIntegerProperty<Flip>(_entities[0].properties[0]);
 
-  /// see [DicePlan.plan]
-  static final plan =
-      obx.QueryStringProperty<DicePlan>(_entities[0].properties[1]);
-}
-
-/// [BordTitle] entity fields to define ObjectBox queries.
-class BordTitle_ {
-  /// see [BordTitle.id]
-  static final id =
-      obx.QueryIntegerProperty<BordTitle>(_entities[1].properties[0]);
-
-  /// see [BordTitle.title]
+  /// see [Flip.title]
   static final title =
-      obx.QueryStringProperty<BordTitle>(_entities[1].properties[1]);
+      obx.QueryStringProperty<Flip>(_entities[0].properties[1]);
+
+  /// see [Flip.plan]
+  static final plan =
+      obx.QueryStringVectorProperty<Flip>(_entities[0].properties[2]);
 }

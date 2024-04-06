@@ -4,45 +4,31 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:4715250782914726885",
-      "lastPropertyId": "2:1600827017435586995",
-      "name": "DicePlan",
+      "id": "1:5280010655913932321",
+      "lastPropertyId": "3:7589208013723665360",
+      "name": "Flip",
       "properties": [
         {
-          "id": "1:7700180733284454752",
+          "id": "1:1250851929711536207",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:1600827017435586995",
-          "name": "plan",
-          "type": 9
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "2:8380208710599110397",
-      "lastPropertyId": "2:4722574709548371077",
-      "name": "BordTitle",
-      "properties": [
-        {
-          "id": "1:1265025630075201580",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:4722574709548371077",
+          "id": "2:5501823002030793014",
           "name": "title",
           "type": 9
+        },
+        {
+          "id": "3:7589208013723665360",
+          "name": "plan",
+          "type": 30
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:8380208710599110397",
+  "lastEntityId": "1:5280010655913932321",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mr/model/BordTitle.dart';
-import 'package:mr/model/DicePlan.dart';
+import 'package:mr/model/Flip.dart';
 import 'package:mr/objectbox.g.dart';
 
 class BordScreen extends StatefulWidget {
@@ -20,44 +19,21 @@ class _BordScreenState extends State<BordScreen> {
     Color(0xffbbd063),
   ];
   Store? store;
-  Box<BordTitle>? bordTitleBox;
-  BordTitle bordTitle = BordTitle(title: "サイコロの旅");
-  Box<DicePlan>? dicePlanBox;
+  Box<Flip>? flipBox;
+  Flip flip = Flip(
+    title: "サイコロの旅",
+    plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
+  );
 
-  // List<DicePlan> dicePlanList = [];
-
-  List<DicePlan> dicePlanList = [
-    DicePlan(plan: "青森"),
-    DicePlan(plan: "新潟"),
-    DicePlan(plan: "松山"),
-    DicePlan(plan: "盛岡"),
-    DicePlan(plan: "下関"),
-    DicePlan(plan: "羽田"),
-  ];
-
-  void fetchBordTitle() {
-    final fetchedBordTitle = bordTitleBox?.get(0);
-    if (fetchedBordTitle != null) {
-      bordTitle = fetchedBordTitle;
-    }
-    // print(bordTitleBox?.getAll()[0].title.toString());
-    // bordTitle = bordTitleBox?.get(0) ?? BordTitle(title: "");
-    // bordTitle = BordTitle(title: "サイコロの旅");
-    setState(() {});
-  }
-
-  void fetchDicePlanList() {
-    // dicePlanList = dicePlanBox?.getAll() ?? [];
-    dicePlanList = [DicePlan(plan: "福岡"), DicePlan(plan: "佐賀"), DicePlan(plan: "長崎"), DicePlan(plan: "熊本"), DicePlan(plan: "大分"), DicePlan(plan: "鹿児島")];
+  void fetchFlip() {
+    flip = flipBox?.get(0) ?? Flip(title: "", plan: ["", "", "", "", "", ""]);
     setState(() {});
   }
 
   Future<void> initialize() async {
     store = await openStore();
-    bordTitleBox = store?.box<BordTitle>();
-    fetchBordTitle();
-    dicePlanBox = store?.box<DicePlan>();
-    fetchDicePlanList();
+    flipBox = store?.box<Flip>();
+    fetchFlip();
   }
 
   @override
@@ -70,7 +46,7 @@ class _BordScreenState extends State<BordScreen> {
   Widget build(BuildContext context) {
     final double deviceHeight = MediaQuery.of(context).size.height;
     final double deviceWidth = MediaQuery.of(context).size.width;
-    String titleText = bordTitle.title;
+    String titleText = flip.title;
     return Scaffold(
       backgroundColor: const Color(0xfff8e6c0),
       body: Center(
@@ -82,58 +58,58 @@ class _BordScreenState extends State<BordScreen> {
                 SizedBox(
                   height: deviceHeight * 0.06,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Stack(
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        Container(
-                          width: deviceWidth * 0.97,
-                          height: deviceHeight * 0.13,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(
-                              begin: FractionalOffset.topLeft,
-                              end: FractionalOffset.bottomRight,
-                              colors: [
-                                const Color(0xfff8e6c0).withOpacity(0.6),
-                                const Color(0xfffccd74).withOpacity(0.6),
-                                const Color(0xfffc8396).withOpacity(0.6),
-                              ],
-                              stops: const [0.0, 0.4, 1.0],
+                GestureDetector(
+                  onTap: () async {
+                    String? newTitle = await showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return TextEditingDialog(text: titleText);
+                      },
+                    );
+                    flip.title = newTitle ?? "";
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Stack(
+                        alignment: Alignment.centerLeft,
+                        children: [
+                          Container(
+                            width: deviceWidth * 0.97,
+                            height: deviceHeight * 0.13,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(
+                                begin: FractionalOffset.topLeft,
+                                end: FractionalOffset.bottomRight,
+                                colors: [
+                                  const Color(0xfff8e6c0).withOpacity(0.6),
+                                  const Color(0xfffccd74).withOpacity(0.6),
+                                  const Color(0xfffc8396).withOpacity(0.6),
+                                ],
+                                stops: const [0.0, 0.4, 1.0],
+                              ),
                             ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(left: deviceWidth * 0.015),
-                              width: deviceHeight * 0.1,
-                              height: deviceHeight * 0.1,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.red,
-                              ),
-                              child: Center(
-                                child: Image.asset(
-                                  'images/sa.png',
-                                  width: deviceHeight * 0.07,
+                          Row(
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(left: deviceWidth * 0.015),
+                                width: deviceHeight * 0.1,
+                                height: deviceHeight * 0.1,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.red,
+                                ),
+                                child: Center(
+                                  child: Image.asset(
+                                    'images/sa.png',
+                                    width: deviceHeight * 0.07,
+                                  ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                String? newTitle = await showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return TextEditingDialog(text: titleText);
-                                  },
-                                );
-                                bordTitle.title = newTitle ?? "";
-                              },
-                              child: Container(
+                              Container(
                                 margin: EdgeInsets.only(left: deviceWidth * 0.015),
                                 width: deviceWidth * 0.72,
                                 child: FittedBox(
@@ -147,12 +123,12 @@ class _BordScreenState extends State<BordScreen> {
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 plan(deviceHeight, deviceWidth, 1),
                 plan(deviceHeight, deviceWidth, 2),
@@ -258,11 +234,11 @@ class _BordScreenState extends State<BordScreen> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        bordTitle.title = "";
-                                        for (var plan in dicePlanList) {
-                                          plan.plan = "";
+                                        flip.title = "";
+                                        for (var plan in flip.plan) {
+                                          plan = "";
                                         }
-                                        // setState(() {});
+                                        fetchFlip();
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text('削除'),
@@ -287,7 +263,7 @@ class _BordScreenState extends State<BordScreen> {
 
   Container plan(double deviceHeight, double deviceWidth, int planNo) {
     String diceNo = "dice$planNo";
-    String planText = dicePlanList[planNo - 1].plan;
+    String planText = flip.plan[planNo - 1];
     Color planColor = planText.isEmpty ? Colors.grey : planColors[planNo - 1];
     return Container(
       margin: EdgeInsets.only(top: deviceHeight * 0.01),
@@ -299,7 +275,7 @@ class _BordScreenState extends State<BordScreen> {
               return TextEditingDialog(text: planText);
             },
           );
-          dicePlanList[planNo - 1].plan = newPlan ?? "";
+          flip.plan[planNo - 1] = newPlan ?? "";
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

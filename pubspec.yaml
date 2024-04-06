@@ -13,6 +13,8 @@ dependencies:
   objectbox: ^2.5.1
   objectbox_flutter_libs: ^2.5.1
   google_fonts: ^6.2.1
+  audioplayers: ^6.0.0
+  sensors: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +28,7 @@ flutter:
   assets:
     - images/
     - images/dice/
+    - assets/sounds/
   fonts:
     - family: NotoSansJP-Black
       fonts:
