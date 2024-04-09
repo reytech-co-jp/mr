@@ -1,15 +1,18 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mr/model/Flip.dart';
 import 'package:mr/objectbox.g.dart';
+import 'package:mr/screen/DiceScreen.dart';
 
-class BordScreen extends StatefulWidget {
-  const BordScreen({super.key});
+class FlipScreen extends StatefulWidget {
+  const FlipScreen({super.key});
 
   @override
-  State<BordScreen> createState() => _BordScreenState();
+  State<FlipScreen> createState() => _FlipScreenState();
 }
 
-class _BordScreenState extends State<BordScreen> {
+class _FlipScreenState extends State<FlipScreen> {
   static const List<Color> planColors = [
     Color(0xffff9ec8),
     Color(0xfffd9989),
@@ -18,6 +21,7 @@ class _BordScreenState extends State<BordScreen> {
     Color(0xff6ab7e5),
     Color(0xffbbd063),
   ];
+
   Store? store;
   Box<Flip>? flipBox;
   Flip flip = Flip(
@@ -25,8 +29,16 @@ class _BordScreenState extends State<BordScreen> {
     plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
   );
 
+  void saveFlip() {
+    flipBox?.put(flip);
+  }
+
   void fetchFlip() {
-    flip = flipBox?.get(0) ?? Flip(title: "", plan: ["", "", "", "", "", ""]);
+    flip = flipBox?.get(1) ??
+        Flip(
+          title: "",
+          plan: ["", "", "", "", "", ""],
+        );
     setState(() {});
   }
 
@@ -40,6 +52,12 @@ class _BordScreenState extends State<BordScreen> {
   void initState() {
     super.initState();
     initialize();
+  }
+
+  @override
+  void dispose() {
+    store?.close();
+    super.dispose();
   }
 
   @override
@@ -109,20 +127,22 @@ class _BordScreenState extends State<BordScreen> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(left: deviceWidth * 0.015),
-                                width: deviceWidth * 0.72,
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    titleText,
-                                    style: TextStyle(
-                                      fontSize: deviceHeight * 0.05,
-                                      fontFamily: "NotoSansJP-Bold",
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              titleText.isNotEmpty
+                                  ? Container(
+                                      margin: EdgeInsets.only(left: deviceWidth * 0.015),
+                                      width: deviceWidth * 0.7,
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          titleText,
+                                          style: TextStyle(
+                                            fontSize: deviceHeight * 0.05,
+                                            fontFamily: "NotoSansJP-Bold",
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
                             ],
                           ),
                         ],
@@ -141,57 +161,92 @@ class _BordScreenState extends State<BordScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: deviceWidth * 0.08),
-                        height: deviceHeight * 0.08,
-                        width: deviceWidth * 0.6,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xffababab), Color(0xffbec0c0), Color(0xff7b7b77)],
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.9),
-                              spreadRadius: 2,
-                              blurRadius: 1,
-                              offset: const Offset(-1, -1),
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: deviceHeight * 0.062,
-                          width: deviceWidth * 0.55,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xff949494), Color(0xffbec0c0), Color(0xff787874)],
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 1,
-                                offset: const Offset(-1, -1),
+                      flip.plan.where((element) => element.isNotEmpty).length > 1
+                          ? Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(right: deviceWidth * 0.08),
+                              height: deviceHeight * 0.08,
+                              width: deviceWidth * 0.6,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xffababab), Color(0xffbec0c0), Color(0xff7b7b77)],
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.9),
+                                    spreadRadius: 2,
+                                    blurRadius: 1,
+                                    offset: const Offset(-1, -1),
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(4),
                               ),
-                            ],
-                            borderRadius: BorderRadius.circular(0.5),
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {},
-                              child: Center(
-                                child: Image.asset(
-                                  'images/destiny_choice.png',
-                                  width: deviceHeight * 0.25,
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: deviceHeight * 0.062,
+                                width: deviceWidth * 0.55,
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xff949494), Color(0xffbec0c0), Color(0xff787874)],
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 1,
+                                      offset: const Offset(-1, -1),
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(0.5),
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      saveFlip();
+                                      List<int> planNoList = [];
+                                      for (int i = 0; i < 6; i++) {
+                                        if (flip.plan[i] != "") {
+                                          planNoList.add(i + 1);
+                                        }
+                                      }
+
+                                      List<String> diceImages = [];
+                                      int currentValue = -1;
+                                      int lastValue = -1;
+                                      for (int i = 0; i <= 18; i++) {
+                                        if (lastValue != -1) {
+                                          planNoList.add(lastValue);
+                                        }
+                                        currentValue = planNoList[Random().nextInt(planNoList.length - 1)];
+                                        diceImages.add("images/dice/red_dice$currentValue.png");
+                                        lastValue = currentValue;
+                                        planNoList.remove(currentValue);
+                                      }
+                                      dispose();
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DiceScreen(
+                                            diceImages,
+                                            currentValue,
+                                            flip.plan[currentValue - 1],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Center(
+                                      child: Image.asset(
+                                        'images/destiny_choice.png',
+                                        width: deviceHeight * 0.25,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                      ),
+                            )
+                          : Container(width: deviceWidth * 0.6),
                       Container(
                         margin: EdgeInsets.only(right: deviceWidth * 0.04),
                         alignment: Alignment.center,
@@ -234,11 +289,15 @@ class _BordScreenState extends State<BordScreen> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        flip.title = "";
-                                        for (var plan in flip.plan) {
-                                          plan = "";
-                                        }
-                                        fetchFlip();
+                                        setState(() {
+                                          flip.title = "";
+                                          flip.plan[0] = "";
+                                          flip.plan[1] = "";
+                                          flip.plan[2] = "";
+                                          flip.plan[3] = "";
+                                          flip.plan[4] = "";
+                                          flip.plan[5] = "";
+                                        });
                                         Navigator.of(context).pop();
                                       },
                                       child: const Text('削除'),
@@ -309,20 +368,22 @@ class _BordScreenState extends State<BordScreen> {
                         height: deviceHeight * 0.075,
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: deviceWidth * 0.015),
-                      width: deviceWidth * 0.75,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          planText,
-                          style: TextStyle(
-                            fontSize: deviceHeight * 0.05,
-                            fontFamily: "NotoSansJP-Bold",
-                          ),
-                        ),
-                      ),
-                    ),
+                    planText.isNotEmpty
+                        ? Container(
+                            margin: EdgeInsets.only(left: deviceWidth * 0.015),
+                            width: deviceWidth * 0.75,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                planText,
+                                style: TextStyle(
+                                  fontSize: deviceHeight * 0.05,
+                                  fontFamily: "NotoSansJP-Bold",
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ],

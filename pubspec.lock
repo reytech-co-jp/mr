@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bordered_text:
+    dependency: "direct main"
+    description:
+      name: bordered_text
+      sha256: e52c549c9d01fdf6359eee7220900eb5a5853b08aa862c8c604442918ca6b4c4
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   build:
     dependency: transitive
     description:
@@ -584,14 +592,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
-  sensors:
+  sensors_plus:
     dependency: "direct main"
     description:
-      name: sensors
-      sha256: "69c10fe94a63dd7c6f5e6557366e5329a713bf6c45d885d95a56642dd8722e35"
+      name: sensors_plus
+      sha256: "59a962b35e36abc799bab94974128f29877ca11610d0573f5aea73d1a5d4bd88"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.3"
+    version: "5.0.0"
+  sensors_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: sensors_plus_platform_interface
+      sha256: bc472d6cfd622acb4f020e726433ee31788b038056691ba433fec80e448a094f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   shelf:
     dependency: transitive
     description:

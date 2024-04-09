@@ -21,23 +21,23 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 5280010655913932321),
+      id: const obx_int.IdUid(1, 2010213036435488507),
       name: 'Flip',
-      lastPropertyId: const obx_int.IdUid(3, 7589208013723665360),
+      lastPropertyId: const obx_int.IdUid(3, 2211921380384308090),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1250851929711536207),
+            id: const obx_int.IdUid(1, 3185724725004900191),
             name: 'id',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 5501823002030793014),
+            id: const obx_int.IdUid(2, 8530996750449127756),
             name: 'title',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 7589208013723665360),
+            id: const obx_int.IdUid(3, 2211921380384308090),
             name: 'plan',
             type: 30,
             flags: 0)
@@ -81,7 +81,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 5280010655913932321),
+      lastEntityId: const obx_int.IdUid(1, 2010213036435488507),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
