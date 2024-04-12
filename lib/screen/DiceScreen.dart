@@ -7,8 +7,10 @@ import 'package:mr/screen/FlipScreen.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class DiceScreen extends StatefulWidget {
-  DiceScreen(this.diceImages, this.currentValue, this.currentPlan, {super.key});
+  DiceScreen(this.deviceHeight, this.deviceWidth, this.diceImages, this.currentValue, this.currentPlan, {super.key});
 
+  double deviceHeight;
+  double deviceWidth;
   List<String> diceImages;
   int currentValue;
   String currentPlan;
@@ -18,31 +20,47 @@ class DiceScreen extends StatefulWidget {
 }
 
 class _DiceScreenState extends State<DiceScreen> {
+  late double deviceHeight;
+  late double deviceWidth;
   late List<String> diceImages;
   late int currentValue;
   late String currentPlan;
   bool isRolling = false;
   bool isRolled = false;
-  late Timer? timer;
+  Timer? timer;
   int currentIndex = 0;
   int currentDuration = 0;
   late int rollingDuration;
+  StreamSubscription? accelerometerSubscription;
   final AudioPlayer player1 = AudioPlayer();
   final AudioPlayer player2 = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
+    deviceHeight = widget.deviceHeight;
+    deviceWidth = widget.deviceWidth;
     diceImages = widget.diceImages;
     currentValue = widget.currentValue;
     currentPlan = widget.currentPlan;
-    rollingDuration = 350;
+    rollingDuration = 385;
+    timer = null;
 
-    accelerometerEventStream().listen((AccelerometerEvent event) {
+    accelerometerSubscription = accelerometerEventStream().listen((AccelerometerEvent event) {
       if (!isRolling && (event.z.abs() > 15)) {
+        accelerometerSubscription?.cancel();
         rollDice();
       }
     });
+  }
+
+  @override
+  void dispose() async {
+    accelerometerSubscription?.cancel();
+    timer?.cancel();
+    player1.stop();
+    player2.stop();
+    super.dispose();
   }
 
   void rollDice() {
@@ -50,10 +68,11 @@ class _DiceScreenState extends State<DiceScreen> {
       return;
     }
 
-    player1.play(AssetSource("sounds/dice.mp3"));
     setState(() {
       isRolling = true;
     });
+
+    player1.play(AssetSource("sounds/dice.wav"));
 
     int rotationCounter = 0;
 
@@ -66,11 +85,10 @@ class _DiceScreenState extends State<DiceScreen> {
       if (rotationCounter >= diceImages.length) {
         timer.cancel();
         await Future.delayed(const Duration(milliseconds: 1000));
-        setState(() {
-          isRolling = true;
-        });
         if (isRolling) {
-          isRolled = true;
+          setState(() {
+            isRolled = true;
+          });
           player2.play(AssetSource("sounds/piko.mp3"));
         }
       }
@@ -78,17 +96,7 @@ class _DiceScreenState extends State<DiceScreen> {
   }
 
   @override
-  void dispose() {
-    timer?.cancel();
-    player1.stop();
-    player2.stop();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final double deviceHeight = MediaQuery.of(context).size.height;
-    final double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xfff8e6c0),
       body: Center(
@@ -99,11 +107,16 @@ class _DiceScreenState extends State<DiceScreen> {
               children: [
                 isRolled ? plan(deviceHeight, deviceWidth, currentValue, currentPlan) : Container(),
                 Center(
-                  child: Container(
-                    margin: EdgeInsets.only(top: deviceHeight * 0.35),
-                    width: deviceHeight / 3,
-                    height: deviceHeight / 3,
-                    child: Image.asset(diceImages[currentIndex]),
+                  child: GestureDetector(
+                    onTap: () {
+                      rollDice();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: deviceHeight * 0.35),
+                      width: deviceHeight / 3,
+                      height: deviceHeight / 3,
+                      child: Image.asset(diceImages[currentIndex]),
+                    ),
                   ),
                 ),
               ],
@@ -122,7 +135,7 @@ class _DiceScreenState extends State<DiceScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const FlipScreen(),
+                    builder: (context) => FlipScreen(deviceHeight, deviceWidth),
                   ),
                 );
               },
