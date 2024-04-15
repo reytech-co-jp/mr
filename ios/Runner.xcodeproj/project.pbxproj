@@ -482,7 +482,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D AVURLAssetOverrideMIMETypeKey_DEPRECATED";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.reytech.mr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -673,7 +672,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D AVURLAssetOverrideMIMETypeKey_DEPRECATED";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.reytech.mr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -704,7 +702,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D AVURLAssetOverrideMIMETypeKey_DEPRECATED";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.reytech.mr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
