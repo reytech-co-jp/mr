@@ -41,7 +41,7 @@ jobs:
       - name: Import Provisioning Profile
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          echo -n ${{ secrets.PROVISIONING_PROFILE }} | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/onigiri.mobileprovision
+          echo -n ${{ secrets.PROVISIONING_PROFILE }} | base64 -d > ~/Library/MobileDevice/Provisioning\ Profiles/mr.mobileprovision
 
       # 署名をする
       - name: Import Code-Signing Certificates
@@ -52,8 +52,8 @@ jobs:
 
       # ipaファイルの出力
       - name: Create ipa file
-        run: flutter build ipa --export-options-plist=ExportOptions.plist --dart-define=env=.env.prod
+        run: flutter build ipa --export-options-plist=ExportOptions.plist
 
       # AppStoreConnectにアップロードする
       - name: Upload to AppStoreConnect
-        run: xcrun altool --upload-app --type ios -f "./build/ios/ipa/Onigiri.ipa" -u "${{ secrets.APPLE_ID }}" -p "${{ secrets.APPLE_APP_PASS }}"
+        run: xcrun altool --upload-app --type ios -f "./build/ios/ipa/mr.ipa" -u "${{ secrets.APPLE_ID }}" -p "${{ secrets.APPLE_APP_PASS }}"
