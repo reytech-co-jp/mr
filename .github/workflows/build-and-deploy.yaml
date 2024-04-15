@@ -52,4 +52,4 @@ jobs:
 
       # AppStoreConnectにアップロードする
       - name: Upload to AppStoreConnect
-        run: xcrun altool --upload-app --type ios -f "./build/ios/ipa/mr.ipa" -u "${{ secrets.APPLE_ID }}" -p "${{ secrets.APPLE_APP_PASS }}"
+        run: xcrun altool --upload-app --type ios -f "./build/ios/ipa/Mr.ipa" -u "${{ secrets.APPLE_ID }}" -p "${{ secrets.APPLE_APP_PASS }}"
