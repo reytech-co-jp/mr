@@ -41,14 +41,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
-  audiofileplayer:
-    dependency: "direct main"
-    description:
-      name: audiofileplayer
-      sha256: a77d22c1494bad1708c930c25128397a1cb8f26624c1622058f244d83efccfef
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
   audioplayers:
     dependency: "direct main"
     description:

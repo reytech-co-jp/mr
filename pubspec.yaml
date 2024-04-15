@@ -13,10 +13,10 @@ dependencies:
   objectbox: ^2.5.1
   objectbox_flutter_libs: ^2.5.1
   google_fonts: ^6.2.1
-  audioplayers: ^0.20.1
   sensors_plus: ^5.0.0
   bordered_text: ^2.0.0
   flutter_launcher_icons: ^0.13.1
+  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
