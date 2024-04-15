@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mr/screen/FlipScreen.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+import 'package:video_player/video_player.dart';
 
 class DiceScreen extends StatefulWidget {
   DiceScreen(this.deviceHeight, this.deviceWidth, this.diceImages, this.currentValue, this.currentPlan, {super.key});
@@ -32,8 +32,9 @@ class _DiceScreenState extends State<DiceScreen> {
   int currentDuration = 0;
   late int rollingDuration;
   StreamSubscription? accelerometerSubscription;
-  final AudioPlayer player1 = AudioPlayer();
-  final AudioPlayer player2 = AudioPlayer();
+
+  late VideoPlayerController player1;
+  late VideoPlayerController player2;
 
   @override
   void initState() {
@@ -45,6 +46,14 @@ class _DiceScreenState extends State<DiceScreen> {
     currentPlan = widget.currentPlan;
     rollingDuration = 385;
     timer = null;
+    player1 = VideoPlayerController.asset('assets/sounds/dice.wav');
+    player2 = VideoPlayerController.asset('assets/sounds/piko.mp3');
+    player1.initialize().then((_) {
+      setState(() {});
+    });
+    player2.initialize().then((_) {
+      setState(() {});
+    });
 
     accelerometerSubscription = accelerometerEventStream().listen((AccelerometerEvent event) {
       if (!isRolling && (event.z.abs() > 15)) {
@@ -58,8 +67,10 @@ class _DiceScreenState extends State<DiceScreen> {
   void dispose() async {
     accelerometerSubscription?.cancel();
     timer?.cancel();
-    player1.stop();
-    player2.stop();
+    // player1.stop();
+    // player2.stop();
+    player1.dispose();
+    player2.dispose();
     super.dispose();
   }
 
@@ -72,7 +83,7 @@ class _DiceScreenState extends State<DiceScreen> {
       isRolling = true;
     });
 
-    player1.play(AssetSource("sounds/dice.wav"));
+    player1.play();
 
     int rotationCounter = 0;
 
@@ -89,7 +100,7 @@ class _DiceScreenState extends State<DiceScreen> {
           setState(() {
             isRolled = true;
           });
-          player2.play(AssetSource("sounds/piko.mp3"));
+          player2.play();
         }
       }
     });

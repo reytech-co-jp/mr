@@ -16,7 +16,7 @@ dependencies:
   sensors_plus: ^5.0.0
   bordered_text: ^2.0.0
   flutter_launcher_icons: ^0.13.1
-  audioplayers: ^6.0.0
+  video_player: ^2.8.6
 
 dev_dependencies:
   flutter_test:
