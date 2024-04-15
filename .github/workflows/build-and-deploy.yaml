@@ -35,7 +35,7 @@ jobs:
 
       # パッケージのダウンロード
       - name: Download Flutter packages
-        run: flutter pub get
+        run: flutter build ios
 
       # 証明書の生成
       - name: Import Provisioning Profile
