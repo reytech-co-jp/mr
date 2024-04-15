@@ -1,5 +1,5 @@
 PODS:
-  - audioplayers_darwin (0.0.1):
+  - audiofileplayer (0.0.1):
     - Flutter
   - Flutter (1.0.0)
   - ObjectBox (1.9.2)
@@ -13,7 +13,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
+  - audiofileplayer (from `.symlinks/plugins/audiofileplayer/ios`)
   - Flutter (from `Flutter`)
   - objectbox_flutter_libs (from `.symlinks/plugins/objectbox_flutter_libs/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -36,7 +36,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sensors_plus/ios"
 
 SPEC CHECKSUMS:
-  audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
+  audiofileplayer: 4aaff759a721ec3a850a682e0d9ec554e5f9e86f
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   ObjectBox: 46757a559717ab49b1cc0612eaff82b705acf394
   objectbox_flutter_libs: 103f3a273b594cb664255086a386740bc179f97d
