@@ -16,15 +16,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
     final Flip flip = Flip(
       title: "サイコロの旅",
       plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FlipScreen(deviceHeight, deviceWidth, flip),
+      home: FlipScreen(flip),
     );
   }
 }

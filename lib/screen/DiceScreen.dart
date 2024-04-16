@@ -8,10 +8,8 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:video_player/video_player.dart';
 
 class DiceScreen extends StatefulWidget {
-  DiceScreen(this.deviceHeight, this.deviceWidth, this.diceImages, this.currentValue, this.currentPlan, this.flip, {super.key});
+  DiceScreen(this.diceImages, this.currentValue, this.currentPlan, this.flip, {super.key});
 
-  double deviceHeight;
-  double deviceWidth;
   List<String> diceImages;
   int currentValue;
   String currentPlan;
@@ -22,8 +20,6 @@ class DiceScreen extends StatefulWidget {
 }
 
 class _DiceScreenState extends State<DiceScreen> {
-  late double deviceHeight;
-  late double deviceWidth;
   late List<String> diceImages;
   late int currentValue;
   late String currentPlan;
@@ -42,8 +38,6 @@ class _DiceScreenState extends State<DiceScreen> {
   @override
   void initState() {
     super.initState();
-    deviceHeight = widget.deviceHeight;
-    deviceWidth = widget.deviceWidth;
     diceImages = widget.diceImages;
     currentValue = widget.currentValue;
     currentPlan = widget.currentPlan;
@@ -110,6 +104,8 @@ class _DiceScreenState extends State<DiceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xfff8e6c0),
       body: Center(
@@ -148,7 +144,7 @@ class _DiceScreenState extends State<DiceScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FlipScreen(deviceHeight, deviceWidth, flip),
+                    builder: (context) => FlipScreen(flip),
                   ),
                 );
               },

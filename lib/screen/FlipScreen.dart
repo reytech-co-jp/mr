@@ -5,10 +5,8 @@ import 'package:mr/model/Flip.dart';
 import 'package:mr/screen/DiceScreen.dart';
 
 class FlipScreen extends StatefulWidget {
-  FlipScreen(this.deviceHeight, this.deviceWidth, this.flip, {super.key});
+  FlipScreen(this.flip, {super.key});
 
-  double deviceHeight;
-  double deviceWidth;
   Flip flip;
 
   @override
@@ -25,18 +23,11 @@ class _FlipScreenState extends State<FlipScreen> {
     Color(0xffbbd063),
   ];
 
-  late double deviceHeight;
-  late double deviceWidth;
   late Flip flip;
-
-  // エラーメッセージを保持する変数
-  String? errorMessage;
 
   @override
   void initState() {
     super.initState();
-    deviceHeight = widget.deviceHeight;
-    deviceWidth = widget.deviceWidth;
     flip = widget.flip;
   }
 
@@ -47,16 +38,11 @@ class _FlipScreenState extends State<FlipScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
     String titleText = flip.title;
     return Scaffold(
       backgroundColor: const Color(0xfff8e6c0),
-      appBar: errorMessage != null
-          ? AppBar(
-              // エラーメッセージがある場合のみAppBarを表示
-              title: Text(errorMessage!),
-              backgroundColor: Colors.red, // エラーメッセージの背景色
-            )
-          : null,
       body: Center(
         child: Container(
           alignment: Alignment.topCenter,
@@ -219,8 +205,6 @@ class _FlipScreenState extends State<FlipScreen> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => DiceScreen(
-                                            deviceHeight,
-                                            deviceWidth,
                                             diceImages,
                                             currentValue,
                                             flip.plan[currentValue - 1],
