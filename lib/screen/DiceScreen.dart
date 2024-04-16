@@ -127,15 +127,8 @@ class _DiceScreenState extends State<DiceScreen> {
             ),
             SizedBox(height: deviceHeight * 0.1),
             isRolled
-                ? ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                      ),
-                    ),
-                    onPressed: () {
+                ? GestureDetector(
+                    onTap: () async {
                       dispose();
                       Navigator.push(
                         context,
@@ -151,15 +144,16 @@ class _DiceScreenState extends State<DiceScreen> {
                         'フリップにもどる',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: deviceHeight * 0.07,
+                          fontSize: deviceHeight * 0.09,
                           fontFamily: "SlacksideOne-Regular",
                         ),
                       ),
                     ),
                   )
                 : Container(
+                    margin: EdgeInsets.only(top: deviceHeight * 0.04),
                     alignment: Alignment.center,
-                    height: deviceHeight * 0.08,
+                    height: deviceHeight * 0.09,
                     width: deviceWidth * 0.6,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
@@ -173,12 +167,12 @@ class _DiceScreenState extends State<DiceScreen> {
                           offset: const Offset(-1, -1),
                         ),
                       ],
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(3),
                     ),
                     child: Container(
                       alignment: Alignment.center,
-                      height: deviceHeight * 0.062,
-                      width: deviceWidth * 0.55,
+                      height: deviceHeight * 0.07,
+                      width: deviceWidth * 0.56,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xff949494), Color(0xffbec0c0), Color(0xff787874)],
@@ -196,13 +190,15 @@ class _DiceScreenState extends State<DiceScreen> {
                       child: Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {
-                            rollDice();
-                          },
+                          onTap: !isRolling
+                              ? () {
+                                  rollDice();
+                                }
+                              : null,
                           child: Center(
                             child: Image.asset(
                               'images/destiny_choice.png',
-                              width: deviceHeight * 0.25,
+                              width: deviceHeight * 0.3,
                             ),
                           ),
                         ),
