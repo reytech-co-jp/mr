@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mr/model/Flip.dart';
-import 'package:mr/objectbox.g.dart';
+// import 'package:mr/objectbox.g.dart';
 import 'package:mr/screen/DiceScreen.dart';
 
 class FlipScreen extends StatefulWidget {
@@ -27,43 +27,44 @@ class _FlipScreenState extends State<FlipScreen> {
 
   late double deviceHeight;
   late double deviceWidth;
-  Store? store;
-  Box<Flip>? flipBox;
+
+  // Store? store;
+  // Box<Flip>? flipBox;
   Flip flip = Flip(
     title: "サイコロの旅",
     plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
   );
 
-  void saveFlip() {
-    flipBox?.put(flip);
-  }
+  // void saveFlip() {
+  //   flipBox?.put(flip);
+  // }
 
-  void fetchFlip() {
-    flip = flipBox?.getAll().first ??
-        Flip(
-          title: "サイコロの旅",
-          plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
-        );
-    setState(() {});
-  }
+  // void fetchFlip() {
+  //   flip = flipBox?.getAll().first ??
+  //       Flip(
+  //         title: "サイコロの旅",
+  //         plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
+  //       );
+  //   setState(() {});
+  // }
 
-  Future<void> initialize() async {
-    store = await openStore();
-    flipBox = store?.box<Flip>();
-    fetchFlip();
-  }
+  // Future<void> initialize() async {
+  //   store = await openStore();
+  //   flipBox = store?.box<Flip>();
+  //   fetchFlip();
+  // }
 
   @override
   void initState() {
     super.initState();
     deviceHeight = widget.deviceHeight;
     deviceWidth = widget.deviceWidth;
-    initialize();
+    // initialize();
   }
 
   @override
   void dispose() {
-    store?.close();
+    // store?.close();
     super.dispose();
   }
 
@@ -210,7 +211,7 @@ class _FlipScreenState extends State<FlipScreen> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () {
-                                      saveFlip();
+                                      // saveFlip();
                                       List<int> planNoList = [];
                                       for (int i = 0; i < 6; i++) {
                                         if (flip.plan[i] != "") {
