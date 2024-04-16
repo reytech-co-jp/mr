@@ -2,18 +2,20 @@ import 'dart:async';
 
 import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
+import 'package:mr/model/Flip.dart';
 import 'package:mr/screen/FlipScreen.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:video_player/video_player.dart';
 
 class DiceScreen extends StatefulWidget {
-  DiceScreen(this.deviceHeight, this.deviceWidth, this.diceImages, this.currentValue, this.currentPlan, {super.key});
+  DiceScreen(this.deviceHeight, this.deviceWidth, this.diceImages, this.currentValue, this.currentPlan, this.flip, {super.key});
 
   double deviceHeight;
   double deviceWidth;
   List<String> diceImages;
   int currentValue;
   String currentPlan;
+  Flip flip;
 
   @override
   State<DiceScreen> createState() => _DiceScreenState();
@@ -25,6 +27,7 @@ class _DiceScreenState extends State<DiceScreen> {
   late List<String> diceImages;
   late int currentValue;
   late String currentPlan;
+  late Flip flip;
   bool isRolling = false;
   bool isRolled = false;
   Timer? timer;
@@ -44,6 +47,7 @@ class _DiceScreenState extends State<DiceScreen> {
     diceImages = widget.diceImages;
     currentValue = widget.currentValue;
     currentPlan = widget.currentPlan;
+    flip = widget.flip;
     rollingDuration = 385;
     timer = null;
     player1 = VideoPlayerController.asset('assets/sounds/dice.wav');
@@ -67,8 +71,6 @@ class _DiceScreenState extends State<DiceScreen> {
   void dispose() async {
     accelerometerSubscription?.cancel();
     timer?.cancel();
-    // player1.stop();
-    // player2.stop();
     player1.dispose();
     player2.dispose();
     super.dispose();
@@ -146,7 +148,7 @@ class _DiceScreenState extends State<DiceScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FlipScreen(deviceHeight, deviceWidth),
+                    builder: (context) => FlipScreen(deviceHeight, deviceWidth, flip),
                   ),
                 );
               },

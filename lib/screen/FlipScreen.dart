@@ -2,14 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mr/model/Flip.dart';
-// import 'package:mr/objectbox.g.dart';
 import 'package:mr/screen/DiceScreen.dart';
 
 class FlipScreen extends StatefulWidget {
-  FlipScreen(this.deviceHeight, this.deviceWidth, {super.key});
+  FlipScreen(this.deviceHeight, this.deviceWidth, this.flip, {super.key});
 
   double deviceHeight;
   double deviceWidth;
+  Flip flip;
 
   @override
   State<FlipScreen> createState() => _FlipScreenState();
@@ -27,44 +27,21 @@ class _FlipScreenState extends State<FlipScreen> {
 
   late double deviceHeight;
   late double deviceWidth;
+  late Flip flip;
 
-  // Store? store;
-  // Box<Flip>? flipBox;
-  Flip flip = Flip(
-    title: "サイコロの旅",
-    plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
-  );
-
-  // void saveFlip() {
-  //   flipBox?.put(flip);
-  // }
-
-  // void fetchFlip() {
-  //   flip = flipBox?.getAll().first ??
-  //       Flip(
-  //         title: "サイコロの旅",
-  //         plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
-  //       );
-  //   setState(() {});
-  // }
-
-  // Future<void> initialize() async {
-  //   store = await openStore();
-  //   flipBox = store?.box<Flip>();
-  //   fetchFlip();
-  // }
+  // エラーメッセージを保持する変数
+  String? errorMessage;
 
   @override
   void initState() {
     super.initState();
     deviceHeight = widget.deviceHeight;
     deviceWidth = widget.deviceWidth;
-    // initialize();
+    flip = widget.flip;
   }
 
   @override
   void dispose() {
-    // store?.close();
     super.dispose();
   }
 
@@ -73,6 +50,13 @@ class _FlipScreenState extends State<FlipScreen> {
     String titleText = flip.title;
     return Scaffold(
       backgroundColor: const Color(0xfff8e6c0),
+      appBar: errorMessage != null
+          ? AppBar(
+              // エラーメッセージがある場合のみAppBarを表示
+              title: Text(errorMessage!),
+              backgroundColor: Colors.red, // エラーメッセージの背景色
+            )
+          : null,
       body: Center(
         child: Container(
           alignment: Alignment.topCenter,
@@ -211,7 +195,6 @@ class _FlipScreenState extends State<FlipScreen> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () {
-                                      // saveFlip();
                                       List<int> planNoList = [];
                                       for (int i = 0; i < 6; i++) {
                                         if (flip.plan[i] != "") {
@@ -241,6 +224,7 @@ class _FlipScreenState extends State<FlipScreen> {
                                             diceImages,
                                             currentValue,
                                             flip.plan[currentValue - 1],
+                                            flip,
                                           ),
                                         ),
                                       );
