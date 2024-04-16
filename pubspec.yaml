@@ -1,7 +1,7 @@
 name: mr
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 1.0.0+8
 
 environment:
   sdk: '>=3.3.3 <4.0.0'
@@ -13,9 +13,10 @@ dependencies:
   objectbox: ^2.5.1
   objectbox_flutter_libs: ^2.5.1
   google_fonts: ^6.2.1
-  audioplayers: ^6.0.0
   sensors_plus: ^5.0.0
   bordered_text: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+  video_player: ^2.8.6
 
 dev_dependencies:
   flutter_test:
@@ -23,6 +24,11 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   build_runner: ^2.4.9
   objectbox_generator: ^2.5.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "images/icon.png"
 
 flutter:
   uses-material-design: true

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mr/screen/FlipScreen.dart';
 import 'package:flutter/services.dart';
+import 'package:mr/screen/FlipScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,9 +15,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FlipScreen(),
+      home: FlipScreen(deviceHeight, deviceWidth),
     );
   }
 }

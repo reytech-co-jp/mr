@@ -6,7 +6,10 @@ import 'package:mr/objectbox.g.dart';
 import 'package:mr/screen/DiceScreen.dart';
 
 class FlipScreen extends StatefulWidget {
-  const FlipScreen({super.key});
+  FlipScreen(this.deviceHeight, this.deviceWidth, {super.key});
+
+  double deviceHeight;
+  double deviceWidth;
 
   @override
   State<FlipScreen> createState() => _FlipScreenState();
@@ -22,6 +25,8 @@ class _FlipScreenState extends State<FlipScreen> {
     Color(0xffbbd063),
   ];
 
+  late double deviceHeight;
+  late double deviceWidth;
   Store? store;
   Box<Flip>? flipBox;
   Flip flip = Flip(
@@ -34,10 +39,10 @@ class _FlipScreenState extends State<FlipScreen> {
   }
 
   void fetchFlip() {
-    flip = flipBox?.get(1) ??
+    flip = flipBox?.getAll().first ??
         Flip(
-          title: "",
-          plan: ["", "", "", "", "", ""],
+          title: "サイコロの旅",
+          plan: ["青森", "新潟", "松山", "盛岡", "下関", "羽田"],
         );
     setState(() {});
   }
@@ -51,6 +56,8 @@ class _FlipScreenState extends State<FlipScreen> {
   @override
   void initState() {
     super.initState();
+    deviceHeight = widget.deviceHeight;
+    deviceWidth = widget.deviceWidth;
     initialize();
   }
 
@@ -62,8 +69,6 @@ class _FlipScreenState extends State<FlipScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double deviceHeight = MediaQuery.of(context).size.height;
-    final double deviceWidth = MediaQuery.of(context).size.width;
     String titleText = flip.title;
     return Scaffold(
       backgroundColor: const Color(0xfff8e6c0),
@@ -84,7 +89,9 @@ class _FlipScreenState extends State<FlipScreen> {
                         return TextEditingDialog(text: titleText);
                       },
                     );
-                    flip.title = newTitle ?? "";
+                    setState(() {
+                      flip.title = newTitle ?? "";
+                    });
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -214,7 +221,7 @@ class _FlipScreenState extends State<FlipScreen> {
                                       List<String> diceImages = [];
                                       int currentValue = -1;
                                       int lastValue = -1;
-                                      for (int i = 0; i <= 18; i++) {
+                                      for (int i = 0; i <= 16; i++) {
                                         if (lastValue != -1) {
                                           planNoList.add(lastValue);
                                         }
@@ -224,11 +231,12 @@ class _FlipScreenState extends State<FlipScreen> {
                                         planNoList.remove(currentValue);
                                       }
                                       dispose();
-
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => DiceScreen(
+                                            deviceHeight,
+                                            deviceWidth,
                                             diceImages,
                                             currentValue,
                                             flip.plan[currentValue - 1],
@@ -334,7 +342,9 @@ class _FlipScreenState extends State<FlipScreen> {
               return TextEditingDialog(text: planText);
             },
           );
-          flip.plan[planNo - 1] = newPlan ?? "";
+          setState(() {
+            flip.plan[planNo - 1] = newPlan ?? "";
+          });
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -409,13 +419,6 @@ class _TextEditingState extends State<TextEditingDialog> {
   final focusNode = FocusNode();
 
   @override
-  void dispose() {
-    controller.dispose();
-    focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
     controller.text = widget.text ?? '';
@@ -429,6 +432,13 @@ class _TextEditingState extends State<TextEditingDialog> {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    focusNode.dispose();
+    super.dispose();
   }
 
   @override
