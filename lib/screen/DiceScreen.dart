@@ -116,51 +116,99 @@ class _DiceScreenState extends State<DiceScreen> {
               children: [
                 isRolled ? plan(deviceHeight, deviceWidth, currentValue, currentPlan) : Container(),
                 Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      rollDice();
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(top: deviceHeight * 0.35),
-                      width: deviceHeight / 3,
-                      height: deviceHeight / 3,
-                      child: Image.asset(diceImages[currentIndex]),
-                    ),
+                  child: Container(
+                    margin: EdgeInsets.only(top: deviceHeight * 0.35),
+                    width: deviceHeight / 3,
+                    height: deviceHeight / 3,
+                    child: Image.asset(diceImages[currentIndex]),
                   ),
                 ),
               ],
             ),
             SizedBox(height: deviceHeight * 0.1),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0),
-                ),
-              ),
-              onPressed: () {
-                dispose();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FlipScreen(flip),
-                  ),
-                );
-              },
-              child: BorderedText(
-                strokeWidth: 8.0,
-                strokeColor: Colors.white,
-                child: Text(
-                  'フリップにもどる',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: deviceHeight * 0.07,
-                    fontFamily: "SlacksideOne-Regular",
-                  ),
-                ),
-              ),
-            ),
+            isRolled
+                ? ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0),
+                      ),
+                    ),
+                    onPressed: () {
+                      dispose();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FlipScreen(flip),
+                        ),
+                      );
+                    },
+                    child: BorderedText(
+                      strokeWidth: 8.0,
+                      strokeColor: Colors.white,
+                      child: Text(
+                        'フリップにもどる',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: deviceHeight * 0.07,
+                          fontFamily: "SlacksideOne-Regular",
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(
+                    alignment: Alignment.center,
+                    height: deviceHeight * 0.08,
+                    width: deviceWidth * 0.6,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xffababab), Color(0xffbec0c0), Color(0xff7b7b77)],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.9),
+                          spreadRadius: 2,
+                          blurRadius: 1,
+                          offset: const Offset(-1, -1),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: deviceHeight * 0.062,
+                      width: deviceWidth * 0.55,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xff949494), Color(0xffbec0c0), Color(0xff787874)],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 1,
+                            offset: const Offset(-1, -1),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(0.5),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            rollDice();
+                          },
+                          child: Center(
+                            child: Image.asset(
+                              'images/destiny_choice.png',
+                              width: deviceHeight * 0.25,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
           ],
         ),
       ),
@@ -220,8 +268,8 @@ class _DiceScreenState extends State<DiceScreen> {
                       child: Text(
                         planText,
                         style: TextStyle(
-                          fontSize: deviceHeight * 0.05,
-                          fontFamily: "NotoSansJP-Bold",
+                          fontSize: deviceHeight * 0.06,
+                          fontFamily: "YuseiMagic-Regular",
                         ),
                       ),
                     ),

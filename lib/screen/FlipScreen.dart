@@ -114,8 +114,9 @@ class _FlipScreenState extends State<FlipScreen> {
                                         child: Text(
                                           titleText,
                                           style: TextStyle(
-                                            fontSize: deviceHeight * 0.05,
-                                            fontFamily: "NotoSansJP-Bold",
+                                            fontSize: deviceHeight * 0.06,
+                                            fontFamily: "YuseiMagic-Regular",
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
@@ -140,85 +141,46 @@ class _FlipScreenState extends State<FlipScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       flip.plan.where((element) => element.isNotEmpty).length > 1
-                          ? Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(right: deviceWidth * 0.08),
-                              height: deviceHeight * 0.08,
-                              width: deviceWidth * 0.6,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [Color(0xffababab), Color(0xffbec0c0), Color(0xff7b7b77)],
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.9),
-                                    spreadRadius: 2,
-                                    blurRadius: 1,
-                                    offset: const Offset(-1, -1),
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: deviceHeight * 0.062,
-                                width: deviceWidth * 0.55,
-                                decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    colors: [Color(0xff949494), Color(0xffbec0c0), Color(0xff787874)],
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 1,
-                                      offset: const Offset(-1, -1),
-                                    ),
-                                  ],
-                                  borderRadius: BorderRadius.circular(0.5),
-                                ),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    onTap: () {
-                                      List<int> planNoList = [];
-                                      for (int i = 0; i < 6; i++) {
-                                        if (flip.plan[i] != "") {
-                                          planNoList.add(i + 1);
-                                        }
-                                      }
+                          ? GestureDetector(
+                              onTap: () {
+                                List<int> planNoList = [];
+                                for (int i = 0; i < 6; i++) {
+                                  if (flip.plan[i] != "") {
+                                    planNoList.add(i + 1);
+                                  }
+                                }
 
-                                      List<String> diceImages = [];
-                                      int currentValue = -1;
-                                      int lastValue = -1;
-                                      for (int i = 0; i <= 16; i++) {
-                                        if (lastValue != -1) {
-                                          planNoList.add(lastValue);
-                                        }
-                                        currentValue = planNoList[Random().nextInt(planNoList.length - 1)];
-                                        diceImages.add("images/dice/red_dice$currentValue.png");
-                                        lastValue = currentValue;
-                                        planNoList.remove(currentValue);
-                                      }
-                                      dispose();
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DiceScreen(
-                                            diceImages,
-                                            currentValue,
-                                            flip.plan[currentValue - 1],
-                                            flip,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Center(
-                                      child: Image.asset(
-                                        'images/destiny_choice.png',
-                                        width: deviceHeight * 0.25,
-                                      ),
+                                List<String> diceImages = [];
+                                int currentValue = -1;
+                                int lastValue = -1;
+                                for (int i = 0; i <= 16; i++) {
+                                  if (lastValue != -1) {
+                                    planNoList.add(lastValue);
+                                  }
+                                  currentValue = planNoList[Random().nextInt(planNoList.length - 1)];
+                                  diceImages.add("images/dice/red_dice$currentValue.png");
+                                  lastValue = currentValue;
+                                  planNoList.remove(currentValue);
+                                }
+                                dispose();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DiceScreen(
+                                      diceImages,
+                                      currentValue,
+                                      flip.plan[currentValue - 1],
+                                      flip,
                                     ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: deviceWidth * 0.05),
+                                height: deviceHeight * 0.08,
+                                child: Center(
+                                  child: Image.asset(
+                                    'images/lets_dice.png',
                                   ),
                                 ),
                               ),
@@ -356,8 +318,9 @@ class _FlipScreenState extends State<FlipScreen> {
                               child: Text(
                                 planText,
                                 style: TextStyle(
-                                  fontSize: deviceHeight * 0.05,
-                                  fontFamily: "NotoSansJP-Bold",
+                                  fontSize: deviceHeight * 0.06,
+                                  fontFamily: "YuseiMagic-Regular",
+                                  // fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
