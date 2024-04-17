@@ -176,12 +176,11 @@ class _FlipScreenState extends State<FlipScreen> {
                                 );
                               },
                               child: Container(
-                                margin: EdgeInsets.only(right: deviceWidth * 0.05),
-                                height: deviceHeight * 0.08,
-                                child: Center(
-                                  child: Image.asset(
-                                    'images/lets_dice.png',
-                                  ),
+                                margin: EdgeInsets.only(right: deviceWidth * 0.1),
+                                width: deviceWidth * 0.6,
+                                child: Image.asset(
+                                  'images/lets_dice.png',
+                                  fit: BoxFit.contain,
                                 ),
                               ),
                             )

@@ -154,7 +154,7 @@ class _DiceScreenState extends State<DiceScreen> {
                     margin: EdgeInsets.only(top: deviceHeight * 0.04),
                     alignment: Alignment.center,
                     height: deviceHeight * 0.09,
-                    width: deviceWidth * 0.6,
+                    width: deviceWidth * 0.64,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xffababab), Color(0xffbec0c0), Color(0xff7b7b77)],
@@ -171,8 +171,8 @@ class _DiceScreenState extends State<DiceScreen> {
                     ),
                     child: Container(
                       alignment: Alignment.center,
-                      height: deviceHeight * 0.07,
-                      width: deviceWidth * 0.56,
+                      height: deviceHeight * 0.072,
+                      width: deviceWidth * 0.6,
                       decoration: BoxDecoration(
                         gradient: const LinearGradient(
                           colors: [Color(0xff949494), Color(0xffbec0c0), Color(0xff787874)],
@@ -195,10 +195,11 @@ class _DiceScreenState extends State<DiceScreen> {
                                   rollDice();
                                 }
                               : null,
-                          child: Center(
+                          child: SizedBox(
+                            height: deviceHeight * 0.1,
                             child: Image.asset(
                               'images/destiny_choice.png',
-                              width: deviceHeight * 0.3,
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
