@@ -1,5 +1,5 @@
-package com.example.mr
+package com.your.mr
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity()
+class MainActivity : FlutterActivity()
